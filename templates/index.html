@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Skin Disease Detector</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      background-size: 200% 200%;
+      animation: gradientFlow 15s ease infinite;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(14px);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 700px;
+      width: 100%;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      animation: fadeIn 1s ease;
+    }
+
+    h1 {
+      font-size: 28px;
+      text-align: center;
+      margin-bottom: 25px;
+      color: #38f8ff;
+      text-shadow: 0 0 12px #0ff;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    input[type="file"] {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px dashed #00f0ff;
+      border-radius: 10px;
+      padding: 14px;
+      color: #ccc;
+      width: 100%;
+      margin-bottom: 20px;
+      transition: border 0.3s;
+    }
+
+    input[type="file"]:hover {
+      border-color: #00ffe5;
+    }
+
+    input[type="submit"] {
+      background: linear-gradient(135deg, #00ffe5, #3b82f6);
+      color: #000;
+      padding: 12px 30px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 0 10px #00fff7, 0 0 20px #3b82f6;
+      transition: transform 0.2s ease;
+    }
+
+    input[type="submit"]:hover {
+      transform: scale(1.05);
+    }
+
+    .result {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .result h2 {
+      color: #38f8ff;
+      margin-bottom: 10px;
+    }
+
+    .result p {
+      font-size: 18px;
+      margin: 8px 0;
+    }
+
+    .result img {
+      margin-top: 20px;
+      width: 100%;
+      max-width: 300px;
+      border-radius: 12px;
+      border: 2px solid #38f8ff;
+      box-shadow: 0 0 20px rgba(56, 248, 255, 0.3);
+    }
+
+    .error {
+      margin-top: 20px;
+      color: #f87171;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 22px; }
+      input[type="submit"] { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🤖 AI Skin Disease Detector</h1>
+    <form method="POST" enctype="multipart/form-data">
+      <input type="file" name="file" accept="image/*" required>
+      <input type="submit" value="Detect Disease">
+    </form>
+
+    {% if prediction %}
+    <div class="result">
+      <h2>🧠 Result</h2>
+      <p><strong>Prediction:</strong> {{ prediction }}</p>
+      <p><strong>Confidence:</strong> {{ confidence }}%</p>
+      <img src="{{ image_path }}" alt="Uploaded Image">
+    </div>
+    {% elif error %}
+    <div class="error">{{ error }}</div>
+    {% else %}
+    <div class="result">
+      <p>Upload an image and click "Detect Disease" to begin.</p>
+    </div>
+    {% endif %}
+  </div>
+</body>
+</html>
